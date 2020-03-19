@@ -1,0 +1,37 @@
+service: <project-name>
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-west-1
+  stage: dev
+
+package:
+  exclude:
+    - .git/**
+    - src/**
+    - test/**
+    - e2e/**
+    - nodemon.json
+    - README.md
+    - nest-cli.json
+    - tsconfig.build.json
+    - tsconfig.json
+    - tslint.json
+    - .prettierrc
+    - .env
+    - .env.example
+    - .env.test
+
+functions:
+  app:
+    handler: dist/lambda-entry-point.handler
+    events:
+    - http:
+        cors: true
+        path: '/'
+        method: any
+    - http:
+        cors: true
+        path: '{proxy+}'
+        method: any
